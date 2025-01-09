@@ -13,6 +13,9 @@ class HourlyWeather extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color: Colors.red,
       ),
+      child: Column(
+        children: [Text()],
+      ),
     );
   }
 }
