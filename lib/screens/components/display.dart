@@ -32,12 +32,25 @@ class Display extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Text(
-                      weatherModel?.location?.name,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          weatherModel?.location?.name,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                          ),
+                        ),
+                        Text(" / "),
+                        Text(
+                          weatherModel?.location?.country,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
                       DateFormat.yMMMMEEEEd().format(
@@ -58,12 +71,24 @@ class Display extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white10,
-                      ),
-                      child: Image.network("https:${weatherModel?.current?.condition?.icon}" ?? ""),
+                    Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white10,
+                          ),
+                          child: Image.network("https:${weatherModel?.current?.condition?.icon}" ?? ""),
+                        ),
+                        Text(
+                          weatherModel?.current?.condition?.text ?? "",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                     Column(
                       children: [
@@ -95,14 +120,6 @@ class Display extends StatelessWidget {
                               ),
                             ),
                           ],
-                        ),
-                        Text(
-                          weatherModel?.current?.condition?.text ?? "",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
                         ),
                       ],
                     ),

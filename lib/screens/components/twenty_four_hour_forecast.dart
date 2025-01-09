@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/model/weather_model.dart';
 import 'package:weather_app/screens/components/hourly_weather.dart';
 
-class WeatherByHour extends StatelessWidget {
+class TwentyFourHourForecast extends StatelessWidget {
   final WeatherModel? weatherModel;
-  WeatherByHour({
+  TwentyFourHourForecast({
     super.key,
     this.weatherModel,
   });
