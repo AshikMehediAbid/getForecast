@@ -10,60 +10,136 @@ class Display extends StatelessWidget {
     this.weatherModel,
   });
 
+  WeatherType getWeatherType(Current? current) {
+    if (current?.isDay == 1) {
+      String txt = current?.condition?.text;
+
+      if (txt == 'Sunny' || txt == 'Clear') {
+        return WeatherType.sunny;
+      }
+      if (txt == 'Light snow') {
+        return WeatherType.lightSnow;
+      }
+      if (txt == 'OverCast') {
+        return WeatherType.overcast;
+      }
+      if (txt == 'Partly Cloud' || txt == 'Cloudy') {
+        return WeatherType.cloudy;
+      }
+      if (txt == 'Mist') {
+        return WeatherType.lightSnow;
+      }
+      if (txt.contains('thunder')) {
+        return WeatherType.thunder;
+      }
+      if (txt.contains('rain')) {
+        return WeatherType.heavyRainy;
+      }
+      if (txt.contains('showers')) {
+        return WeatherType.middleSnow;
+      }
+    } else {
+      String txt = current?.condition?.text;
+
+      if (txt == 'Sunny' || txt == 'Clear') {
+        return WeatherType.sunnyNight;
+      }
+      if (txt == 'OverCast') {
+        return WeatherType.overcast;
+      }
+      if (txt == 'Partly Cloud' || txt == 'Cloudy') {
+        return WeatherType.cloudyNight;
+      }
+      if (txt == 'Mist') {
+        return WeatherType.lightSnow;
+      }
+      if (txt.contains('thunder')) {
+        return WeatherType.thunder;
+      }
+      if (txt.contains('rain')) {
+        return WeatherType.heavyRainy;
+      }
+      if (txt.contains('showers')) {
+        return WeatherType.middleSnow;
+      }
+    }
+
+    return WeatherType.thunder;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         WeatherBg(
-          weatherType: WeatherType.thunder,
-          width: double.infinity,
-          height: 600,
+          weatherType: getWeatherType(weatherModel?.current),
+          width: MediaQuery.of(context).size.width,
+          height: 700,
         ),
         SizedBox(
           width: double.infinity,
           height: 600,
           child: Column(
             children: [
-              Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white10,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          weatherModel?.location?.name,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white10,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            weatherModel?.location?.name,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                            ),
+                          ),
+                          Text(
+                            " , ",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                            ),
+                          ),
+                          Text(
+                            weatherModel?.location?.country,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        DateFormat.yMMMMEEEEd().format(
+                          DateTime.parse(
+                            weatherModel?.current?.lastUpdated.toString() ?? "",
                           ),
                         ),
-                        Text(" / "),
-                        Text(
-                          weatherModel?.location?.country,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                      Text(
+                        "Last Updated: ${(DateFormat.Hm().format(
+                          DateTime.parse(
+                            weatherModel?.current?.lastUpdated.toString() ?? "",
                           ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      DateFormat.yMMMMEEEEd().format(
-                        DateTime.parse(
-                          weatherModel?.current?.lastUpdated.toString() ?? "",
+                        ))}",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
                         ),
                       ),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Padding(

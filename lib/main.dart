@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/screens/home_Screen.dart';
 
@@ -18,7 +19,18 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomeScreen(),
+      home: AnimatedSplashScreen(
+        splash: Container(
+          //width: MediaQuery.of(context).size.width * .5,
+          child: Image.asset(
+            "assets/sp.png",
+            width: 265.75,
+          ),
+        ),
+        duration: 3000,
+        backgroundColor: Color.fromRGBO(220, 244, 255, 1),
+        nextScreen: HomeScreen(),
+      ),
     );
   }
 }
