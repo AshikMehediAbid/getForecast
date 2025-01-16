@@ -1,9 +1,10 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app/screens/home_Screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app/screens/home/view/home_Screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

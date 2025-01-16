@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app/components/display.dart';
+import 'package:weather_app/components/twenty_four_hour_forecast.dart';
 import 'package:weather_app/model/weather_model.dart';
-import 'package:weather_app/screens/components/display.dart';
-import 'package:weather_app/screens/components/twenty_four_hour_forecast.dart';
-import 'package:weather_app/screens/seven_days_forecast.dart';
+import 'package:weather_app/screens/home/view_model/home_screen_controller.dart';
+import 'package:weather_app/screens/one_week_forecast/view/seven_days_forecast.dart';
 import 'package:weather_app/service/api_service.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   ApiService apiService = ApiService();
 
   final _searchController = TextEditingController();
-
-  String searchedText = "auto:ip";
 
   _showTextInputDialog(BuildContext context) async {
     return showDialog(
@@ -42,7 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ElevatedButton(
                 onPressed: () {
                   if (_searchController.text.isEmpty) return;
-
                   Navigator.of(context).pop(_searchController.text.trim());
                   _searchController.clear();
                 },
@@ -55,29 +54,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final homeScreenController = ref.watch(homeScreenProvider);
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
               onPressed: () async {
                 String text = await _showTextInputDialog(context);
-                setState(() {
-                  searchedText = text;
-                });
+                ref.read(homeScreenProvider.notifier).setLocation(text);
               },
               icon: Icon(Icons.search)),
           IconButton(
               onPressed: () {
-                setState(() {
-                  searchedText = "auto:ip";
-                });
+                ref.read(homeScreenProvider.notifier).setLocation("auto:ip");
               },
-              icon: Icon(Icons.location_searching)),
+              icon: Icon(Icons.my_location)),
         ],
       ),
       body: SafeArea(
         child: FutureBuilder(
-          future: apiService.getWeatherData(searchedText),
+          future: apiService.getWeatherData(homeScreenController.searchedText),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               WeatherModel? weatherModel = snapshot.data;

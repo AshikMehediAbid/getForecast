@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/components/day_wise_weather.dart';
 import 'package:weather_app/model/weather_model.dart';
-import 'package:weather_app/screens/components/day_wise_weather.dart';
 
 class SevenDaysForecast extends StatelessWidget {
   final WeatherModel? weatherModel;
@@ -13,7 +13,9 @@ class SevenDaysForecast extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("${weatherModel?.location?.name} , ${weatherModel?.location?.country}"),
+      ),
       body: Expanded(
         child: ListView.builder(
           itemCount: weatherModel?.forecast?.forecastday?.length,
